@@ -1,74 +1,106 @@
-import { Box, Container, Grid, Stack, Typography } from "@mui/material";
-import logo from "../../assets/logo.png";
-import fb from "../../assets/fb.png";
-import pinterest from "../../assets/pinterest.png";
-import twitter from "../../assets/twitter.png";
-import yt from "../../assets/yt.png";
-import FooterLink from "./FooterLink";
+import { Chip, Stack, Typography, Divider } from "@mui/material";
 
-export default function Footer() {
+export default function TimeSlotPicker({
+  availableSlots,
+  details,
+  handleBooking,
+  selectedDate,
+}) {
+  const CustomChip = (props) => (
+    <Chip
+      label={props.label}
+      color="primary"
+      variant="outlined"
+      sx={{
+        borderRadius: "5px",
+        fontSize: { xs: 10, md: 14 },
+        cursor: "pointer",
+        "&:nth-of-type(1)": {
+          ml: 0,
+        },
+        mr: { xs: 1, md: 3 },
+        mt: { xs: 1, md: 0 },
+      }}
+      onClick={props.handleClick}
+    />
+  );
+
+  const handleClick = (slot) => {
+    handleBooking({ ...details, bookingDate: selectedDate, bookingTime: slot });
+  };
+
   return (
-    <Box bgcolor="primary.secondary" pb={3} pt={6}>
-      <Container maxWidth="xl">
-        <Grid container spacing={4}>
-          <Grid item xs={12} md={4.5}>
-            <Stack
-              alignItems="flex-start"
-              justifyContent="space-between"
-              height={1}
-            >
-              <Box src={logo} height={36} alt="Medify" component="img" mb={2} />
-              <Stack direction="row" spacing={1.5}>
-                <Box component="img" src={fb} height={36} />
-                <Box component="img" src={twitter} height={36} />
-                <Box component="img" src={yt} height={36} />
-                <Box component="img" src={pinterest} height={36} />
-              </Stack>
-            </Stack>
-          </Grid>
-
-          <Grid item xs={12} md={2.5}>
-            <Stack spacing={2}>
-              <FooterLink>About Us</FooterLink>
-              <FooterLink>Our Pricing</FooterLink>
-              <FooterLink>Our Gallery</FooterLink>
-              <FooterLink>Appointment</FooterLink>
-              <FooterLink>Privacy Policy</FooterLink>
-            </Stack>
-          </Grid>
-
-          <Grid item xs={12} md={2.5}>
-            <Stack spacing={2}>
-              <FooterLink>Orthology</FooterLink>
-              <FooterLink>Neurology</FooterLink>
-              <FooterLink>Dental Care</FooterLink>
-              <FooterLink>Opthalmology</FooterLink>
-              <FooterLink>Cardiology</FooterLink>
-            </Stack>
-          </Grid>
-
-          <Grid item xs={12} md={2.5}>
-            <Stack spacing={2}>
-              <FooterLink>About Us</FooterLink>
-              <FooterLink>Our Pricing</FooterLink>
-              <FooterLink>Our Gallery</FooterLink>
-              <FooterLink>Appointment</FooterLink>
-              <FooterLink>Privacy Policy</FooterLink>
-            </Stack>
-          </Grid>
-        </Grid>
-
-        <Typography
-          fontWeight={300}
-          color="#fff"
-          fontSize={14}
-          pt={3}
-          mt={5}
-          borderTop="1px solid rgba(255,255,255,0.1)"
+    <Stack
+      pt={3}
+      spacing={{ xs: 2, md: 3 }}
+      divider={<Divider orientation="horizontal" flexItem />}
+    >
+      {availableSlots.morning.length > 0 && (
+        <Stack
+          direction="row"
+          alignItems="center"
+          px={{ xs: 0, md: 6 }}
+          flexWrap={"wrap"}
         >
-          Copyright ©2023 Surya Nursing Home.com. All Rights Reserved
-        </Typography>
-      </Container>
-    </Box>
+          <Typography
+            width={{ xs: 1, md: "15%" }}
+            fontSize={{ xs: 14, md: 16 }}
+          >
+            Morning
+          </Typography>
+          {availableSlots.morning.map((slot) => (
+            <CustomChip
+              key={slot}
+              label={slot}
+              handleClick={() => handleClick(slot)}
+            />
+          ))}
+        </Stack>
+      )}
+      {availableSlots.afternoon.length > 0 && (
+        <Stack
+          direction="row"
+          alignItems="center"
+          px={{ xs: 0, md: 6 }}
+          flexWrap={"wrap"}
+        >
+          <Typography
+            width={{ xs: 1, md: "15%" }}
+            fontSize={{ xs: 14, md: 16 }}
+          >
+            Afternoon
+          </Typography>
+          {availableSlots.afternoon.map((slot) => (
+            <CustomChip
+              key={slot}
+              label={slot}
+              handleClick={() => handleClick(slot)}
+            />
+          ))}
+        </Stack>
+      )}
+      {availableSlots.afternoon.length > 0 && (
+        <Stack
+          direction="row"
+          alignItems="center"
+          px={{ xs: 0, md: 6 }}
+          flexWrap={"wrap"}
+        >
+          <Typography
+            width={{ xs: 1, md: "15%" }}
+            fontSize={{ xs: 14, md: 16 }}
+          >
+            Evening
+          </Typography>
+          {availableSlots.evening.map((slot) => (
+            <CustomChip
+              key={slot}
+              label={slot}
+              handleClick={() => handleClick(slot)}
+            />
+          ))}
+        </Stack>
+      )}
+    </Stack>
   );
 }
